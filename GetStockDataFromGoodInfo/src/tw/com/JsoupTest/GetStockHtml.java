@@ -1,35 +1,15 @@
 package tw.com.JsoupTest;
 
-//funtion 1 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.Iterator;
 
 //funtion 2
 
 import java.util.Locale;
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
-import javax.net.ssl.HostnameVerifier;
-import javax.net.ssl.HttpsURLConnection;
-import javax.net.ssl.SSLSession;
-
-import org.apache.http.HttpResponse;
-import org.apache.http.HttpStatus;
-import org.apache.http.util.EntityUtils;
-import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.HttpClient;
-import org.apache.log4j.Logger;
 import org.apache.log4j.Logger;
 
 //抓下來
@@ -51,73 +31,76 @@ public class GetStockHtml extends Thread {
 //	javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: 
 //		PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: 
 //		unable to find valid certification path to requested target 
-	public void validator() {
-		try {
-			trustAllHttpsCertificates();
-		
-		HostnameVerifier hv = new HostnameVerifier() {
-//			public boolean verify(String urlHostName, SSLSession session) {
-//				System.out.println("Warning: URL Host: " + urlHostName + " vs. "
-//						+ session.getPeerHost());
-//				return true;
+//	public void validator() {
+//		try {
+//			trustAllHttpsCertificates();
+//		
+//		HostnameVerifier hv = new HostnameVerifier() {
+////			public boolean verify(String urlHostName, SSLSession session) {
+////				System.out.println("Warning: URL Host: " + urlHostName + " vs. "
+////						+ session.getPeerHost());
+////				return true;
+////			}
+//
+//			@Override
+//			public boolean verify(String hostname, SSLSession session) {
+//				// TODO Auto-generated method stub
+//				return false;
 //			}
-
-			@Override
-			public boolean verify(String hostname, SSLSession session) {
-				// TODO Auto-generated method stub
-				return false;
-			}
-		};
-		HttpsURLConnection.setDefaultHostnameVerifier(hv);
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		
-	}
-
-	
-	private static void trustAllHttpsCertificates() throws Exception {
-		javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
-		javax.net.ssl.TrustManager tm = new miTM();
-		trustAllCerts[0] = tm;
-		javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext
-				.getInstance("SSL");
-		sc.init(null, trustAllCerts, null);
-		javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc
-				.getSocketFactory());
-	}
-
-	static class miTM implements javax.net.ssl.TrustManager,
-			javax.net.ssl.X509TrustManager {
-		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
-			return null;
-		}
-
-		public boolean isServerTrusted(
-				java.security.cert.X509Certificate[] certs) {
-			return true;
-		}
-
-		public boolean isClientTrusted(
-				java.security.cert.X509Certificate[] certs) {
-			return true;
-		}
-
-		public void checkServerTrusted(
-				java.security.cert.X509Certificate[] certs, String authType)
-				throws java.security.cert.CertificateException {
-			return;
-		}
-
-		public void checkClientTrusted(
-				java.security.cert.X509Certificate[] certs, String authType)
-				throws java.security.cert.CertificateException {
-			return;
-		}
-	}
-
+//		};
+//		HttpsURLConnection.setDefaultHostnameVerifier(hv);
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		
+//	}
+//
+//	
+//	private static void trustAllHttpsCertificates() throws Exception {
+//		javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
+//		javax.net.ssl.TrustManager tm = new miTM();
+//		trustAllCerts[0] = tm;
+//		javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext
+//				.getInstance("SSL");
+//		sc.init(null, trustAllCerts, null);
+//		javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc
+//				.getSocketFactory());
+//	}
+//
+//	static class miTM implements javax.net.ssl.TrustManager,
+//			javax.net.ssl.X509TrustManager {
+//		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+//			return null;
+//		}
+//
+//		public boolean isServerTrusted(
+//				java.security.cert.X509Certificate[] certs) {
+//			return true;
+//		}
+//
+//		public boolean isClientTrusted(
+//				java.security.cert.X509Certificate[] certs) {
+//			return true;
+//		}
+//
+//		public void checkServerTrusted(
+//				java.security.cert.X509Certificate[] certs, String authType)
+//				throws java.security.cert.CertificateException {
+//			return;
+//		}
+//
+//		public void checkClientTrusted(
+//				java.security.cert.X509Certificate[] certs, String authType)
+//				throws java.security.cert.CertificateException {
+//			return;
+//		}
+//	}
+public void netValidator(){
+	Validator v = new Validator();
+	v.validator();
+}
 	public void run() {
 		LOG.info("ENTER run()");
 		// while(running){
@@ -142,11 +125,11 @@ public class GetStockHtml extends Thread {
 		urlStr.append("https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022");
 		LOG.info("\nurSTR= " + urlStr.toString() + "\n");
 		try {
+			netValidator();
 			for (int i = 0; i < stockIDArray.length; i++) {
-				validator();
 				LOG.info("\nurlSTR= " + urlStr.toString());
+			
 				doc = Jsoup.connect(urlStr.toString()).get();
-
 				writerToFile("D:/Stock/test_"
 						+ stockIDArray[i]
 						+ "_"
