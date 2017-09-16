@@ -19,6 +19,10 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.HttpsURLConnection;
+import javax.net.ssl.SSLSession;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpStatus;
 import org.apache.http.util.EntityUtils;
@@ -44,6 +48,76 @@ public class GetStockHtml extends Thread {
 		running = true;
 	}
 
+//	javax.net.ssl.SSLHandshakeException: sun.security.validator.ValidatorException: 
+//		PKIX path building failed: sun.security.provider.certpath.SunCertPathBuilderException: 
+//		unable to find valid certification path to requested target 
+	public void validator() {
+		try {
+			trustAllHttpsCertificates();
+		
+		HostnameVerifier hv = new HostnameVerifier() {
+//			public boolean verify(String urlHostName, SSLSession session) {
+//				System.out.println("Warning: URL Host: " + urlHostName + " vs. "
+//						+ session.getPeerHost());
+//				return true;
+//			}
+
+			@Override
+			public boolean verify(String hostname, SSLSession session) {
+				// TODO Auto-generated method stub
+				return false;
+			}
+		};
+		HttpsURLConnection.setDefaultHostnameVerifier(hv);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	
+	private static void trustAllHttpsCertificates() throws Exception {
+		javax.net.ssl.TrustManager[] trustAllCerts = new javax.net.ssl.TrustManager[1];
+		javax.net.ssl.TrustManager tm = new miTM();
+		trustAllCerts[0] = tm;
+		javax.net.ssl.SSLContext sc = javax.net.ssl.SSLContext
+				.getInstance("SSL");
+		sc.init(null, trustAllCerts, null);
+		javax.net.ssl.HttpsURLConnection.setDefaultSSLSocketFactory(sc
+				.getSocketFactory());
+	}
+
+	static class miTM implements javax.net.ssl.TrustManager,
+			javax.net.ssl.X509TrustManager {
+		public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+			return null;
+		}
+
+		public boolean isServerTrusted(
+				java.security.cert.X509Certificate[] certs) {
+			return true;
+		}
+
+		public boolean isClientTrusted(
+				java.security.cert.X509Certificate[] certs) {
+			return true;
+		}
+
+		public void checkServerTrusted(
+				java.security.cert.X509Certificate[] certs, String authType)
+				throws java.security.cert.CertificateException {
+			return;
+		}
+
+		public void checkClientTrusted(
+				java.security.cert.X509Certificate[] certs, String authType)
+				throws java.security.cert.CertificateException {
+			return;
+		}
+	}
+
 	public void run() {
 		LOG.info("ENTER run()");
 		// while(running){
@@ -62,25 +136,27 @@ public class GetStockHtml extends Thread {
 		// 2 儲成html檔
 		// 3 同時存入資料庫
 		// 設定要抓取的網頁
-		String[] stockIDArray = { "0050","3022","5880",  "2455" };
+		String[] stockIDArray = { "0050", "3022", "5880", "2455" };
 		StringBuilder urlStr = new StringBuilder(70);
 		Document doc;
-		urlStr.append("http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022");
+		urlStr.append("https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022");
 		LOG.info("\nurSTR= " + urlStr.toString() + "\n");
 		try {
 			for (int i = 0; i < stockIDArray.length; i++) {
-				
+				validator();
 				LOG.info("\nurlSTR= " + urlStr.toString());
-				doc= Jsoup.connect(urlStr.toString()).get();
+				doc = Jsoup.connect(urlStr.toString()).get();
 
-				writerToFile("D:/Stock/test_" + stockIDArray[i] + "_"
+				writerToFile("D:/Stock/test_"
+						+ stockIDArray[i]
+						+ "_"
 						+ new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss",
 								Locale.ENGLISH).format(new Date()) + ".html",
 						doc.toString());// test
-				if(i+1< stockIDArray.length){
-					urlStr.replace(62, 66, stockIDArray[i+1]);
+				if (i + 1 < stockIDArray.length) {
+					urlStr.replace(62, 66, stockIDArray[i + 1]);
 				}
-				
+
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

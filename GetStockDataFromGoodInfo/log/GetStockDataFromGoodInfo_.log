@@ -12206,4 +12206,34 @@ urSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
 urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-08-23 01:17:25,060] 
 urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-08-23 01:17:25,480] 
 urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=5880[2017-08-23 01:17:25,863] 
-urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=2455
+urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=2455[2017-09-01 00:49:11,942] ENTER init()[2017-09-01 00:49:11,942] ENTER run()[2017-09-01 00:49:11,942] 
+urSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-01 00:49:11,942] 
+urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-01 00:49:33,845] ENTER init()[2017-09-01 00:49:33,845] ENTER run()[2017-09-01 00:49:33,845] 
+urSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-01 00:49:33,845] 
+urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-01 00:49:47,464] ENTER init()[2017-09-01 00:49:47,464] ENTER run()[2017-09-01 00:49:47,464] 
+urSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-01 00:49:47,464] 
+urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-01 00:49:53,298] ENTER init()[2017-09-01 00:49:53,298] ENTER run()[2017-09-01 00:49:53,298] 
+urSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-01 00:49:53,298] 
+urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-16 14:07:04,157] ENTER init()[2017-09-16 14:07:04,158] ENTER run()[2017-09-16 14:07:04,158] 
+urSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-16 14:07:04,158] 
+urlSTR= http://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-16 15:55:13,064] ENTER init()[2017-09-16 15:55:13,064] ENTER run()[2017-09-16 15:55:13,065] 
+urSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-16 15:55:13,065] 
+urlSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-16 15:55:26,670] ENTER init()[2017-09-16 15:55:26,670] ENTER run()[2017-09-16 15:55:26,671] 
+urSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-16 15:55:26,671] 
+urlSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-16 17:43:53,174] ENTER init()[2017-09-16 17:43:53,175] ENTER run()[2017-09-16 17:43:53,175] 
+urSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-16 17:43:53,175] 
+urlSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-16 17:44:29,549] ENTER init()[2017-09-16 17:44:29,550] ENTER run()[2017-09-16 17:44:29,550] 
+urSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022
+[2017-09-16 17:44:29,600] 
+urlSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022[2017-09-16 17:44:30,484] 
+urlSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID30222[2017-09-16 17:44:30,900] 
+urlSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID58802[2017-09-16 17:44:31,262] 
+urlSTR= https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID24552
