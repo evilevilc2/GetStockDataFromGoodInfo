@@ -8,6 +8,8 @@ public class TestGetStock {
 	}
 	public void init(){
 		GetStockHtml getStock = new GetStockHtml();
+		
+		
 	}
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub

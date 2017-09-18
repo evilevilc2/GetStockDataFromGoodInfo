@@ -10,6 +10,7 @@ import java.util.Date;
 //funtion 2
 
 import java.util.Locale;
+
 import org.apache.log4j.Logger;
 
 //抓下來
@@ -139,6 +140,7 @@ public void netValidator(){
 				if (i + 1 < stockIDArray.length) {
 					urlStr.replace(62, 66, stockIDArray[i + 1]);
 				}
+//				Parse p = new Parse();
 
 			}
 		} catch (IOException e) {

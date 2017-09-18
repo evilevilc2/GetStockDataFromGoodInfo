@@ -68,7 +68,7 @@ public class ParseDatra {
 //		GetStockHtml getStock = new GetStockHtml();
 	}
 	public static void main(String[] args) throws IOException {
-		new TestGetStock();
+//		new TestGetStock();
 		// writerToFile("D:/Stock/test_" + stockIDArray[i] + "_"
 		// + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss",
 		// Locale.ENGLISH).format(new Date()) + ".html",
@@ -80,14 +80,14 @@ if(stockPath.isDirectory()){
 	ArrayList<String> valueList = new ArrayList<String>();
 	Map<String, String> stockStrorMap = new HashMap();
 	for(File f : fileList){
-		LOG.info("\n"+ f);
+		LOG.info("\n f ="+ f.getName() + "\n");
 		docTest = Jsoup.parse(f, "UTF-8");
 		// 取評語
 				Elements ele = docTest.select("span");// .attr("bgcolor");
 //				Elements eleStr = doc
 //						.select("span[style=cursor:default;font-size:9pt;color:red]");
 				for (Element tds : ele) {
-					LOG.info(" 評語1, " + tds.text());
+					LOG.info(" 評語1, " + tds.text() + "\n");
 				}
 				// 取股票代號、股票中文名稱
 				getStockIDAndName(
@@ -144,11 +144,13 @@ if(stockPath.isDirectory()){
 				// tr元素 屬性align="center" bgcolor="white" height="24px" 股價成交價的tr標千 屬性
 				// 取值
 				Elements getValue = docTest
-						.select("tr[align=center]tr[bgcolor=white]tr[height=24px]");// ,
+//						.select("tr[align=center]tr[bgcolor=white]tr[height=24px]");//寫死，後來24改成26
+						.select("tr[align=center]tr[bgcolor=white]tr[height=26px]");// ,
 																					// tr[bgcolor=white]");
 				// 取中文名
 				Elements getPriceChie = docTest
-						.select("tr[align=center]tr[valign=middle]tr[bgcolor=#e7f3ff]tr[height=24px]");
+//						.select("tr[align=center]tr[valign=middle]tr[bgcolor=#e7f3ff]tr[height=26px]");//寫死，後來24改成26
+						.select("tr[align=center]tr[valign=middle]tr[bgcolor=#e7f3ff]tr[height=26px]");
 
 				// 取成交價的值
 				for (Element tds : getValue) {
@@ -156,6 +158,7 @@ if(stockPath.isDirectory()){
 					String[] valueStrArr = tds.text().split(" ");
 					setValue(valueStrArr, valueList);
 				}
+				LOG.debug("原始中文 getPriceChie = " + getPriceChie + "\n");
 				// 取成交價的中文說明
 				for (Element tds : getPriceChie) {
 					LOG.info("\n原始中文, " + tds.text());
@@ -169,11 +172,13 @@ if(stockPath.isDirectory()){
 				}
 
 				// 印出來
-				LOG.info("chineList.size() = " + chineList.size() 
-						+ "\nstrArray.length = " + strArray.length);
+				LOG.info("\nchineList.size() = " + chineList.size() 
+						+ "\nstrArray.length = " + strArray.length + "\n");
 				for (int e = 0; e < chineList.size(); e++) {
 					// stockMap.put(myChineList.get(e), myValueList.get(e));
-					LOG.info("\n" + chineList.get(e) + " = " + valueList.get(e));
+					LOG.info("\nchineList.get(e) = " + chineList.get(e) + 
+							"\n, ||存的key值 = " +strArray[e + 4] +
+							"\n  ||存的value值 = " + valueList.get(e));
 					// 存入map
 					// stockMap.put(myChineList.get(e), myValueList.get(e));
 					stockStrorMap.put(strArray[e + 4], valueList.get(e));
@@ -184,6 +189,8 @@ if(stockPath.isDirectory()){
 				
 				// 更換數值裡的"&nbsp;"
 				for (int i = 0; i < changeVauleArray.length; i++) {
+					LOG.info("changeVauleArray["+i+ "]= "+ changeVauleArray[i] 
+							+ "\nstockStrorMap.get(changeVauleArray["+i+"]= "+ stockStrorMap.get(changeVauleArray[i]) + "\n");
 					updateStockValue(changeVauleArray[i],
 							stockStrorMap.get(changeVauleArray[i]), stockStrorMap);
 				}
@@ -192,7 +199,7 @@ if(stockPath.isDirectory()){
 					db = new SQLBridge();
 					db.openMSSQLDB();
 
-					saveStockDataToDBTest(stockStrorMap);
+					saveStockDataToDB(stockStrorMap);
 					stockStrorMap.clear();
 				} catch (InstantiationException e) {
 					// TODO Auto-generated catch block
@@ -366,8 +373,8 @@ if(stockPath.isDirectory()){
 					.get("stockAvgvolume"), map.get("stockAvgprice"), map
 					.get("PER"), map.get("PBR"), map.get("yVolume"), map
 					.get("yPrice"), map.get("yCount"), map.get("yAvgvolume"),
-					map.get("yAvgprice"), map.get("yNetchange"), "create new stock_datetime欄位", "Y",
-					sdf.format(new Date() ), "no update" ,map.get("getStockDateTime"));
+					map.get("yAvgprice"), map.get("yNetchange"), "helloword", "Y",
+					sdf.format(new Date() ), "123" ,map.get("getStockDateTime"));
 			LOG.info("\n\n\n  |||||||||||||Seccuss|||||||||||||||");
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -411,7 +418,7 @@ if(stockPath.isDirectory()){
 					.get("PER"), map.get("PBR"), map.get("yVolume"), map
 					.get("yPrice"), map.get("yCount"), map.get("yAvgvolume"),
 					map.get("yAvgprice"), map.get("yNetchange"), "test", "Y",
-					"time", "no update",map.get("getStockDateTime"));
+					"time", "201709test",map.get("getStockDateTime"));
 //					正確new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH)
 //						正確	.format(new Date()), "no update");
 
@@ -426,7 +433,7 @@ if(stockPath.isDirectory()){
 			// .get("成交均張"), map.get("成交均價"), map.get("PER"), map
 			// .get("PBR"), map.get("昨日張數"), map.get("昨日金額"), map
 			// .get("昨日筆數"), map.get("昨日均張"), map.get("昨日均價"), map
-			// .get("昨漲跌價 (幅)"), "test", "Y",
+			// .get("昨漲跌價 (幅)"), "test", "Y",
 			// new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH)
 			// .format(new Date()), "no update");
 		} catch (SQLException e) {
@@ -457,7 +464,7 @@ if(stockPath.isDirectory()){
 	public static String changeString(String changefrom, String changetostr) {
 		final byte bytes[] = { (byte) 0xC2, (byte) 0xA0 };
 		try {
-			LOG.info("\n================changefromstr = " + changefrom + " , changetostr=" + changetostr);
+			LOG.info("\nchangefromstr = " + changefrom + " , changetostr=" + changetostr +"\n");
 			return changefrom.replaceAll(new String(bytes, "utf-8"),
 					changetostr);
 		} catch (UnsupportedEncodingException e) {
@@ -475,24 +482,29 @@ if(stockPath.isDirectory()){
 	// ("stockId", "3266")、("stockName","聯強電")
 	public static void getStockIDAndName(String stockidstr, Map savemap) {
 		int count = 0;
+		LOG.info("置換前 = " + stockidstr + "\n");
 		for (String saveValue : strSplitByBar(changeString(stockidstr, "|"))) {
 			savemap.put(strArray[count], saveValue);
 			count++;
-			LOG.info("\nhere" + strArray[count] + " = " + saveValue);
+			LOG.info("here= " + strArray[count] + " = " + saveValue + "\n");
 		}
 	}
 
 	public static String[] strSplitByDsu(String ssb) {
-		final String tempStr = ssb;
-		return tempStr.split("-", -1);
+		return ssb.split("-", -1);
 	}
 
+	public static void isNull(String checkStr1 ,String checkStr2){
+		
+	}
 	public static void updateStockValue(String keystr, String value, Map savemap) {
 		int count = 0;
+		LOG.debug("in updateStockValue( key = " + keystr + "  ,value = "+ value);
 		StringBuilder ssb = new StringBuilder(30);
+		
 		for (String saveValue : strSplitByDsu(changeString(value, "-"))) {
+			LOG.debug("in updateStockValue() saveValue = "+ saveValue);
 			ssb.append(saveValue);
-
 			count++;
 			// LOG.info("\nhere" + strArray[count] + " = " + saveValue);
 		}
@@ -501,25 +513,25 @@ if(stockPath.isDirectory()){
 }
 // 問題產生
 //
-//  最近遇到一個這樣的問題，在生成的報文中，某個字段信息後面有一個空格，在代碼中修剪（）下，它仍然存在。到底什麼原因呢？
+//  最近遇到一個這樣的問題，在生成的報文中，某個字段信息後面有一個空格，在代碼中修剪（）下，它仍然存在。到底什麼原因呢？
 //
-//  問題的根源
+//  問題的根源
 //
-//  經過多番查證，是由於UTF-8中的特俗字符造成的。
+//  經過多番查證，是由於UTF-8中的特俗字符造成的。
 //
-//  問題的根源，在於UTF-8這種編碼裡面，存在一個特殊的字符，其編碼是“0xC2 0xA0”，轉換成字符的時候，表現為一個空格，跟一般的半角空格
-//  為0x20）一樣，唯一的不同是它的寬度不會被壓縮，因此比較多的被用於網頁排版（如首行縮進之類）。而其他的編碼方式如GB2312，Unicode的之類並沒有這樣的字符，因此如果簡單地進行編碼轉換，生成地GB2312
+//  問題的根源，在於UTF-8這種編碼裡面，存在一個特殊的字符，其編碼是“0xC2 0xA0”，轉換成字符的時候，表現為一個空格，跟一般的半角空格
+//  為0x20）一樣，唯一的不同是它的寬度不會被壓縮，因此比較多的被用於網頁排版（如首行縮進之類）。而其他的編碼方式如GB2312，Unicode的之類並沒有這樣的字符，因此如果簡單地進行編碼轉換，生成地GB2312
 // / Unocode字符串中，這個字符就會被替換成為問號（ASCII
-//  ox3F）。
+//  ox3F）。
 //
-//  使用UTF-8進行HTMLDecode的時候，對於語句開頭的（NBSP），就會被自動轉換成為這個特殊的空格，可能是判斷為放在開頭的空格，一定是用來排版的在轉換為其他。編碼之前，這個特殊的空格受到的待遇與普通的半角空格是一致的，甚至也會被修剪（）去掉。
+//  使用UTF-8進行HTMLDecode的時候，對於語句開頭的（NBSP），就會被自動轉換成為這個特殊的空格，可能是判斷為放在開頭的空格，一定是用來排版的在轉換為其他。編碼之前，這個特殊的空格受到的待遇與普通的半角空格是一致的，甚至也會被修剪（）去掉。
 //
-//  因此，碰到這個問題的原因有兩種：一種是在UTF-8編碼下進行了轉換，產生了這個字符;還有一種就是網頁中直接採用了這個字符進行排版。
+//  因此，碰到這個問題的原因有兩種：一種是在UTF-8編碼下進行了轉換，產生了這個字符;還有一種就是網頁中直接採用了這個字符進行排版。
 //
-//  問題解決之法
+//  問題解決之法
 //
-//  複製代碼
-//  C＃代碼如下：
+//  複製代碼
+//  C＃代碼如下：
 //
 //
 // byte[] space = new byte[]{0xc2,0xa0};
@@ -646,18 +658,18 @@ if(stockPath.isDirectory()){
 // 最高價 = 46.15 highPrice
 // 最低價 = 45.5 lowPrice
 // 成交張數 = 285 totalVolume
-// 成交金額 = 1,309.3 萬 totalPrice
+// 成交金額 = 1,309.3 萬 totalPrice
 // 成交筆數 = 223 totalCount
-// 成交均張 = 1.3 張/筆 avgVolume
-// 成交均價 = 45.89 元 avgPrice
+// 成交均張 = 1.3 張/筆 avgVolume
+// 成交均價 = 45.89 元 avgPrice
 // PER = 11.07 PER
 // PBR = 1.91 PBR
 // 昨日張數 = 432 yVolume
-// 昨日金額 = 1,978.0 萬 yPrice
+// 昨日金額 = 1,978.0 萬 yPrice
 // 昨日筆數 = 320 yVolume
-// 昨日均張 = 1.4 張/筆 yAvgVolume
-// 昨日均價 = 45.73 元 yAvgPrice
-// 昨漲跌價 (幅) = +0.5 (+1.1%) y_netchange
+// 昨日均張 = 1.4 張/筆 yAvgVolume
+// 昨日均價 = 45.73 元 yAvgPrice
+// 昨漲跌價 (幅) = +0.5 (+1.1%) y_netchange
 //
 // USE [StockDB]
 // GO
@@ -746,4 +758,3 @@ if(stockPath.isDirectory()){
 // [create_time] [nvarchar](50) NULL,
 // [upload_time] [nvarchar](50) NULL
 // ) ON [PRIMARY]
-
