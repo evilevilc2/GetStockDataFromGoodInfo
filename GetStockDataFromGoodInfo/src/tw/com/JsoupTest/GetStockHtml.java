@@ -14,18 +14,19 @@ import java.util.Locale;
 import org.apache.log4j.Logger;
 
 //抓下來
-public class GetStockHtml extends Thread {
+//public class GetStockHtml extends Thread  //old code
+public class GetStockHtml  {
 	boolean running = false;
 	// String pathName = ""
 	private final static Logger LOG = Logger.getLogger(GetStockHtml.class);
 
 	public GetStockHtml() {
 		init();
-		this.start();
+//		this.start();
 	}
 
 	public void init() {
-		LOG.info("ENTER init()");
+		LOG.info("ENTER GetStockHtml init()");
 		running = true;
 	}
 
@@ -102,7 +103,58 @@ public void netValidator(){
 	Validator v = new Validator();
 	v.validator();
 }
-	public void run() {
+public void getWebHtml() {
+	while(running){
+	LOG.info("ENTER run()");
+	// while(running){
+	// try {
+	// sleep(1000);
+	// LOG.info("\nENTER run()");
+	// } catch (InterruptedException e) {
+	// // TODO Auto-generated catch block
+	// e.printStackTrace();
+	// }
+	// }
+
+	// 1 捉取的網址 ，一次抓取二十個，如: x101、x102
+	// 1從列表取出並轉成物件如: 陣列
+	// 2用迴圈或其它去跑執行換網址的動作
+	// 2 儲成html檔
+	// 3 同時存入資料庫
+	// 設定要抓取的網頁
+	String[] stockIDArray = { "0050", "3022", "5880", "2455" };
+	StringBuilder urlStr = new StringBuilder(70);//長度為67
+	Document doc;
+	urlStr.append("https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=0050");
+	LOG.info("\n初始值的url STR= " + urlStr.toString() + "\n");
+	try {
+		netValidator();//網頁安全驗證
+		for (int i = 0; i < stockIDArray.length; i++) {
+//			urlStr.append(stockIDArray[i]);
+			LOG.info("\n 進入for迴圈["+i+"] , url= " + urlStr.toString());
+		
+			doc = Jsoup.connect(urlStr.toString()).get();
+			writerToFile("D:/Stock/test_"
+					+ stockIDArray[i]
+					+ "_"
+					+ new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss",
+							Locale.ENGLISH).format(new Date()) + ".html",
+					doc.toString());// test
+			if (i + 1 < stockIDArray.length) {
+				urlStr.replace(63, 67, stockIDArray[i + 1]);
+			}else{
+				running = false;
+			}
+//			Parse p = new Parse();
+
+		}
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}}
+}
+
+	public void run2() {//old code
 		LOG.info("ENTER run()");
 		// while(running){
 		// try {
@@ -121,7 +173,7 @@ public void netValidator(){
 		// 3 同時存入資料庫
 		// 設定要抓取的網頁
 		String[] stockIDArray = { "0050", "3022", "5880", "2455" };
-		StringBuilder urlStr = new StringBuilder(70);
+		StringBuilder urlStr = new StringBuilder(70);//長度為67
 		Document doc;
 		urlStr.append("https://goodinfo.tw/StockInfo/StockDividendPolicy.asp?STOCK_ID=3022");
 		LOG.info("\nurSTR= " + urlStr.toString() + "\n");
@@ -138,7 +190,7 @@ public void netValidator(){
 								Locale.ENGLISH).format(new Date()) + ".html",
 						doc.toString());// test
 				if (i + 1 < stockIDArray.length) {
-					urlStr.replace(62, 66, stockIDArray[i + 1]);
+					urlStr.replace(63, 67, stockIDArray[i + 1]);
 				}
 //				Parse p = new Parse();
 

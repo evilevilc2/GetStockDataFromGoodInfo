@@ -68,7 +68,10 @@ public class ParseDatra {
 //		GetStockHtml getStock = new GetStockHtml();
 	}
 	public static void main(String[] args) throws IOException {
-//		new TestGetStock();
+		LOG.info("\n html is start");
+		GetStockHtml T = new GetStockHtml();
+		T.getWebHtml();
+		LOG.info("\n html is done");
 		// writerToFile("D:/Stock/test_" + stockIDArray[i] + "_"
 		// + new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss",
 		// Locale.ENGLISH).format(new Date()) + ".html",
@@ -80,7 +83,7 @@ if(stockPath.isDirectory()){
 	ArrayList<String> valueList = new ArrayList<String>();
 	Map<String, String> stockStrorMap = new HashMap();
 	for(File f : fileList){
-		LOG.info("\n f ="+ f.getName() + "\n");
+		LOG.info("\n f ="+ f.getName() + " , fileList = " + fileList + "\n");
 		docTest = Jsoup.parse(f, "UTF-8");
 		// 取評語
 				Elements ele = docTest.select("span");// .attr("bgcolor");
@@ -418,7 +421,7 @@ if(stockPath.isDirectory()){
 					.get("PER"), map.get("PBR"), map.get("yVolume"), map
 					.get("yPrice"), map.get("yCount"), map.get("yAvgvolume"),
 					map.get("yAvgprice"), map.get("yNetchange"), "test", "Y",
-					"time", "201709test",map.get("getStockDateTime"));
+					"time", "20170920",map.get("getStockDateTime"));
 //					正確new SimpleDateFormat("yyyy/MM/dd HH:mm:ss", Locale.ENGLISH)
 //						正確	.format(new Date()), "no update");
 
